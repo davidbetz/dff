@@ -4,6 +4,8 @@
 
 Back in late 2005 I created a system which I released in 2007 under the title of Data Feed Framework (DFF) which I later started to call Sql Feed Framework. Now I'm releasing a newly refactored edition, which relies on WCF for RSS creation and aggregation in place of RSS.NET, called simply Squid. This library exists to greatly simplify the creation of RSS feeds and the aggregation of RSS and Atom feeds on websites. The goal of the feed creation portion of the system was to allow developers and IT professionals to create RSS feeds with little to no work at all thereby allowing them to use RSS for purposes other than blogging or news. The goal of the aggrgator portion of DFF was to the integration of information into ASP.NET 2.0 pages.
 
+Original 2005 version was based on LLBLGen and RSS.NET, see project on Codeplex to download that version. https://squid.codeplex.com/releases/view/12519
+
 ### The Data Feed Framework has two primary components:
 
 *   FeedCreation
