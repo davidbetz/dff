@@ -1,0 +1,53 @@
+﻿.Display {
+width: 610px;
+padding: 0;
+}
+
+.Display {
+margin-left: 140px;
+}
+
+.InformationHighBlock {
+width: 170px;
+height: 272px;
+margin: 5px;
+padding: 10px;
+}
+
+.InformationWideBlock {
+width: 360px;
+height: 120px;
+margin: 5px;
+padding: 10px;
+}
+
+.InformationBlock {
+width: 165px;
+height: 120px;
+margin: 5px;
+padding: 10px;
+}
+
+#information h2 {
+width: 610px;
+}
+
+#contents #padding {
+height: 210px;
+}
+
+#reporting .ReportStep {
+width: 140px;
+}
+
+#footer {
+width: 730px;
+}
+
+.DocumentGroup {
+width: 600px;
+}
+
+#reporting #parameters {
+	width: 500px !important;
+}

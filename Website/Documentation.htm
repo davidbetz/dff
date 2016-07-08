@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Data Feed Framework Documentation</title>
+
+
+
+
+<style type="text/css">
+body {
+font-family: verdana, sans-serif;
+}
+
+h1, h2 {
+margin: 0;
+}
+
+h1 {
+font-size: 100%;
+}
+
+h2 {
+font-size: 90%;
+}
+
+p {
+font-size: 76%;
+}
+
+#main {
+width: 80%;
+}
+</style></head><body>
+<div id="main">
+<h1>Squid Documentation, April 2008 Edition</h1>
+<h2>David Betz &lt;dfb@davidbetz.net&gt;</h2>
+
+<p>Back in late 2005 I created a system which I released in 2007 under
+the title of Data Feed Framework (DFF) which I later started to call
+Sql Feed Framework.  Now I'm releasing a newly refactored edition, which
+relies on WCF for RSS creation and aggregation in place of RSS.NET, called 
+simply Squid.  This library exists to greatly simplify the creation of
+RSS feeds and the aggregation of RSS and Atom feeds on websites. The goal
+of the feed creation portion of the system was to allow developers and IT
+professionals to create RSS feeds with little to no work at all thereby
+allowing them to use RSS for purposes other than blogging or news. The
+goal of the aggrgator portion of DFF was to the integration of
+information into ASP.NET 2.0 pages.</p>
+
+<h3>The Data Feed Framework has two primary components:</h3>
+
+<ul>
+<li>FeedCreation</li>
+<li>InfoBlocks</li>
+</ul>
+
+<p>Using the FeedCreation mechanism, developers and IT professionals
+can quickly create RSS feeds to monitor internal SQL databases, create
+sales RSS feeds for management, or monitor whatever else they wanted.
+The aggregator portion of the system, called InfoBlocks, allows web
+developers to declare a control in ASP.NET 2.0, give it an RSS or Atom
+feed and walk away having an InfoBlock on their page containing a list
+of feed entries from the RSS feed.</p>
+
+<p>The two portions of the system work together, but can also be used separately.  </p>
+
+<p>To make explaining this a bit easier, below is a link to my
+documentation for the system. Below that are the links for the source
+of the system as well as screen shots. I'll soon be creating a video to
+go over the basic concepts of this system.</p>
+
+<p>I can't overemphasis how simply this system makes RSS creation and
+RSS/Atom aggregation. It's literally a matter writing a SQL statement.
+Absolutely no more work than that is required. The simplicity is very
+much like that simplicity in WCF. Where WCF relied primarily on
+attributes and a config file, I rely simply on a SQL Server 2005 table
+called "FeedCreation". You literally write a SQL statement and give it
+a name and you have a complete RSS feed ready for corporate or public
+distribution. I'm planning on incorporating this system into the core
+of Minima in the next CTP.</p>
+
+<p>The license for this is simple: use it all you want for whatever you
+want, customize it to your own needs, but 1) ALWAYS keep the copyright
+notice in there and 2) I nor my companies are liable for anything. It's
+a Creative Commons Attribution 2.5 License.</p>
+
+<p>The following documentation explains step-by-step how the FeedCreator and InfoBlocks work.  <u>Please read this completely</u>.</p>
+
+<h3>Simply Feed Creation</h3>
+
+<p>To create a feed, go to the FeedCreation table put a Title,
+Description (which can be blank), and a SQL statement. That's all
+that's required to create a feed. The feed is then accessible via the
+LoadFeed.aspx page. For example, go to the FeedCreation table and put
+the following information in:</p>
+
+<pre><b>FeedCreationTitle:</b> SQL Jobs
+<b>FeedCreationStatement:</b> select Id=0, Title=name, Description=description from msdb.dbo.sysjobs where enabled = 1</pre>
+
+<p>Leave all others as defaults, then you can access the feed with:</p>
+<pre>LoadFeed.aspx?title=SQL+Jobs</pre>
+
+<p>Or, if the <strong>FeedCreationId</strong> is 29, you can use this:</p>
+<pre>LoadFeed.aspx?id=29</pre>
+
+<p>However, this may be something you don't want people to guess. If
+they know they can type in LoadFeed.aspx?id=# to get a feed, they can
+start guessing numbers.</p>
+<p>
+To get around this...</p>
+
+<h3>Secret Feed Creation</h3>
+
+<p>... simply set <strong>FeedAccessViaGuidOnly</strong> to true and then you may only access it with the Guid in FeedGuid like this:</p>
+<pre>  LoadFeed.aspx?secretId=9BE0FBBB-FAC4-464A-B183-88B5B5DEB582</pre>
+
+<p>Now you have a feed that isn't publicly advertised. There's really
+no way anyone is going to access that feed unless they are given the
+Guid.</p>
+
+<h3>...as an InfoBlock</h3>
+
+<p>Now, if you were to use an <strong>InfoBlock</strong> to access this feed you simply
+have to register the InfoBlock control assembly with the page and declare an InfoBlock.</p>
+<p> For example, to register the assembly with the page, the use the following syntax:</p>
+
+<pre>&lt;%@ Register Assembly="InformationAccessPointControls" Namespace="Iap.Controls" TagPrefix="iap" %&gt;</pre>
+
+<p>Now, to declare an InfoBlock, use the following sytax, setting the <strong>DataSource</strong> to the feed you want the <strong>InfoBlock</strong> to use:</p>
+
+<pre>&lt;iap:InfoBlock ID="ibBlock3" runat="server" <strong>DataSource="http://MyHost/LoadFeed.aspx?secretId=9BE0FBBB-FAC4-464A-B183-88B5B5DEB582"</strong>&gt;&lt;/iap:InfoBlock&gt;</pre>
+
+<p>...which would show a list of entries in the feed with each entry's link set whatever is in the <strong>DefaultEntryLinkTemplate</strong> item in the web configuration file.</p>
+
+<p>For this scenario it may not matter where the link goes as you may
+not even need a description. Perhaps all you care about are the titles.
+However, if you did care about the description you can rely on the <b>DefaultEntryLinkTemplate</b> to have a custom page display the description for you.  Furthermore, the <b>DefaultEntryLinkTemplate</b> is actually a link template allowing you more flexibility than a mere link would.</p>
+
+<p>For example, if <b>"SnippetViewer.aspx?id={id}"</b> was the <b>DefaultEntryLinkTemplate</b>, then the <b>{id}</b> would be replaced with the ID of the entry.  So, clicking on item 28 in the feed would take you to "<strong>SnippetViewer.aspx?id=28</strong>".  You could also use <b>{title}</b> or <b>{description}</b> if you needed to, though <b>{id}</b> will probably be used more than anything else.</p>
+
+<p><b>SnippetViewer.aspx</b> is provided as an example of what could be
+used to display snippets.&nbsp; You could either use this page (with
+some rather extensive styling) or you could create your own page and
+completely change the value of <b> DefaultEntryLinkTemplate</b>.</p>
+
+<h3>Custom Link Templates</h3>
+
+<p>Now, say you wanted this, and only this, feed to have links going to a page you
+created, but you didn't want to change the <strong>DefaultEntryLinkTemplate </strong>
+as that would affect all feeds.&nbsp; Perhaps you setup a
+SQLMonitor.aspx page that will help you monitor your system. Assuming
+that you can send paramaters to the page, you can use your own custom
+template by altering the feed creation statement:</p>
+<pre>select Id=0, Title=name, Description=description, <strong>LinkTemplate='SQLMonitor.aspx?SqlJobId={id}'</strong> from msdb.dbo.sysjobs where enabled = 1</pre>
+
+<p>Now, the InfoBlock will show your own link.</p>
+
+<h3>Schedules Entries</h3>
+
+<p>Say you want to setup a company feed to advertise company
+announcements, however you don't want to micromanage the announcements.
+Using this system, you can schedule your annoucements to automatically
+show at a certain date and time and then automatically disappear at a
+different date and time. To see this, lets first setup a <b>SnippetGroup</b> called "Company Announcements".  You do this simply by putting a record in the <b>SnippetGroup</b> table.</p>
+
+<p>Now, in the <b>FeedCreation</b> table, use this <b>FeedCreationStatment</b>:</p>
+<pre>  select Id = SnippetId, Title = SnippetTitle, Description = SnippetDescription from <strong>SnippetDated</strong>where SnippetGroupId = 12</pre>
+
+<p>Please note that this statement uses the <b>SnippetDated</b> view, not <u>not</u> the Snippet table directly.  This is important when working with scheduling.</p>
+
+<p>Lastly, in the <b>Snippet</b> table start putting in some snippets, setting each snippet's <b>SnippetGroupId</b> to the <b>SnippetGroupId</b> obtained from the <b>SnippetGroup</b>.</p>
+
+<h4>Snippet Titles:</h4>
+<ul>
+<li>Client in Office - Week of March 12</li>
+<li>Happy Independence Day!</li>
+<li>February Birthdays</li>
+<li>March Birthdays</li>
+<li>Jeans Day Every Friday</li>
+</ul>
+
+<p>You'll also probably want to put in some descriptions for each of
+these. Samples are given in the provided SQL Server 2005 database.</p>
+
+<p>Now, say you want to set the February Birthdays entry to only show
+for the month of February and the March Birthdays entry to only show up
+for the month of march. To do this just put in the start and end dates
+in the <b>SnippetValidBegin</b> and <b>SnippetValidEnd</b> columns, respectively.</p>
+
+<p>When someone views the feed by any of the following means, they will see only the entries appropriate for that moment.  If the <b>SnippetValidBegin</b> and <b>SnippetValidEnd</b> columns are null, the entries will always show up:</p>
+
+<h4>Possibly ways to access this feed:</h4>
+<pre>LoadFeed.aspx?id=30
+LoadFeed.aspx?title=Company+Announcements
+LoadFeed.aspx?secretId=75DCDDFF-E457-4CF3-95EC-951B1B648AE7</pre>
+
+<h3>More Complex SQL</h3>
+
+<p>As you saw in the SQL Server jobs example, you do not have to use the <b>Snippet</b> and <b>SnippetGroup</b>
+tables. You can use anything you want. But that's not all. You don't
+even have to stay in the same database and you don't have to use simple
+SQL statements.</p>
+
+<p>Here's an example of creating a feed to get the top 10 sales persons with the best sales from the AdventureWorks database.</p>
+
+<p>Use this as your FeedCreationStatement:</p>
+<pre>  select
+Id=pc.ContactID,
+Title=pc.FirstName + ' ' + pc.LastName + ': ' + convert(varchar(20), convert(numeric(10,2), sum(LineTotal))),
+Description='',
+LinkTemplate = 'ShowContactInformation.aspx?ContactID={id}'
+from Sales.SalesOrderDetail sod
+inner join Sales.SalesOrderHeader soh on soh.SalesOrderID = sod.SalesOrderID
+inner join Person.Contact pc on pc.ContactID = soh.SalesPersonID
+group by pc.FirstName, pc.LastName, pc.ContactID order by sum(LineTotal) desc</pre>
+
+<p>
+Then, you need to put AdventureWorks in the <b>FeedCreationDatabase</b> column of the same record.</p>
+
+<p>This SQL Server statement will refresh every time the feed is
+accessed, unless you have some sort of caching mechanism to prevent
+this.&nbsp; Also notice that this statement has <strong>LinkTemplate</strong> set.</p>
+
+<p>For something like this, you probably won't need to schedule it, though you could, but you may want to set <b>FeedAccessViaGuidOnly</b> to true to prevent just anyone from accessing it.</p>
+
+<p>In addition to more complicated SQL statements, you could also use
+stored procedures, but I won't show an example of that as it should be
+fairly self explanatory at this point.</p>
+
+<h3>Registering a Feed with a Web Browser</h3>
+
+<p>Both Mozilla Firefox (1.0 and beyond) and Internet Explorer 7 allow
+for the ability to register a feed with a web browser via the use of a
+&lt;link /&gt; element. When you place an <strong>InfoBlock</strong> on a screen, you can tell it to register the specified feed with the web browser by setting the <strong>InfoBlock</strong>
+property of <strong>RegisterFeedWithBrowser</strong>
+to True. This will tell Firefox and IE about the link and they will in
+turn show the feed icon (usually the orange feed icon) in the address
+bar.</p>
+
+<p>For example, to register the company announcement feed with Firefox or IE7, you will have this:</p>
+<pre>  &lt;iap:InfoBlock ID="ibBlock3" runat="server" <strong>RegisterFeedWithBrowser="True"</strong> DataSource="http://MyHost/LoadFeed.aspx?secretId=75DCDDFF-E457-4CF3-95EC-951B1B648AE7"&gt;&lt;/iap:InfoBlock&gt;</pre>
+
+<p>Now the user will see the feed icon in his or her address bar. In
+Firefox, the user could click the icon and set it as a Firefox Live
+Bookmark, which looks and feels like a bookmark, but automatically
+updates as the feed changes.</p>
+
+<h3>Other Feeds</h3>
+<p>The InfoBlocks could also used to show other RSS feeds.</p>
+
+<p>For example, the following creates and InfoBlock for my NetFX Harmonics feed:</p>
+<pre>  &lt;iap:InfoBlock ID="ibBlock9" runat="server" DataSource="http://feeds.feedburner.com/FXHarmonics/" Visible="true"&gt;&lt;/iap:InfoBlock&gt;</pre>
+
+<p>For something like this, you probably wouldn't register with the
+browser, but you may want to have as a different size, either taller or
+wider</p>
+
+<h3>Block Sizes</h3>
+
+<p>To set this, simply change the <b>BlockSize</b> property of the <b>InfoBlock</b> to either <b>Wide</b> or <b>Tall</b>, depending on what you want.</p>
+
+<p>For example, this sets a wide <b>InfoBlock</b>...</p>
+<pre>  &lt;iap:InfoBlock ID="ibBlock9" runat="server" <b>BlockSize="Wide"</b> DataSource="http://feeds.feedburner.com/FXHarmonics/" Visible="true"&gt;&lt;/iap:InfoBlock&gt;</pre>
+
+<p>... and this sets a tall InfoBlock.</p>
+
+<pre>&lt;iap:InfoBlock ID="ibBlock3" runat="server" <b>BlockSize="Tall"</b> RegisterFeedWithBrowser="True" DataSource="http://MyHost/LoadFeed.aspx?secretId=9BE0FBBB-FAC4-464A-B183-88B5B5DEB582"&gt;&lt;/iap:InfoBlock&gt;</pre>
+</div>
+</body></html>

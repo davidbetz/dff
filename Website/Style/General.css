@@ -1,0 +1,47 @@
+/* CSS Dimension of Size */
+@import url(Size1024.css);
+
+/* CSS Dimension of Theme */
+@import url(BlueGlassTheme.css);
+
+/* InfoBlock Specifics */
+@import url(InformationBlocks.css);
+
+/* Global */
+body {
+margin:0;
+padding:10px;
+background:#fff;
+font-size: 76%;
+font-family: verdana, helvetica, sans-serif;
+line-height: 130%;
+}
+
+body[id=body] {
+margin-top:-10px;
+}
+
+/* Page Header*/
+
+#information h2 {
+height: 25px;
+font-weight:normal;
+letter-spacing: 0.01em;
+font-size: 1.2em;
+padding-top:5px;
+margin:0;
+text-align:center;
+cursor: default;
+}
+
+dl.Dictionary {
+}
+
+dl.Dictionary dt {
+float: left;
+clear: both;
+}
+
+dl.Dictionary dl {
+float: left;
+}

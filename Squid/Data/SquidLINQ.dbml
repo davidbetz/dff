@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Squid" EntityNamespace="Squid.Data.Entity" ContextNamespace="Squid.Data.Context" Class="SquidLINQDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=IO\SQL2005_01;Initial Catalog=Squid;Integrated Security=True" SettingsObjectName="Squid.Properties.Settings" SettingsPropertyName="SquidConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.FeedCreation" Member="FeedCreations">
+    <Type Name="FeedCreation">
+      <Column Name="FeedCreationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FeedCreationTitle" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="FeedCreationDescription" Type="System.String" DbType="VarChar(2000) NOT NULL" CanBeNull="false" />
+      <Column Name="FeedCreationStatement" Type="System.String" DbType="VarChar(4000) NOT NULL" CanBeNull="false" />
+      <Column Name="FeedCreationDatabase" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="FeedGuid" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="FeedAccessViaGuidOnly" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FeedCreationModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FeedCreationCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SnippetGroup" Member="SnippetGroups">
+    <Type Name="SnippetGroup">
+      <Column Name="SnippetGroupId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SnippetGroupTitle" Type="System.String" DbType="VarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="SnippetGroupModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SnippetGroupCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="SnippetGroup_Snippet" Member="Snippets" OtherKey="SnippetGroupId" Type="Snippet" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Snippet" Member="Snippets">
+    <Type Name="Snippet">
+      <Column Name="SnippetId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SnippetGroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SnippetTitle" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="SnippetDescription" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="SnippetExtra" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="SnippetOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SnippetValidBegin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="SnippetValidEnd" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="SnippetModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SnippetCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="SnippetGroup_Snippet" Member="SnippetGroup" ThisKey="SnippetGroupId" Type="SnippetGroup" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,81 @@
+﻿#information {
+}
+
+.InformationHighBlock {
+float: left;
+overflow: auto;
+}
+
+.InformationWideBlock {
+float: left;
+overflow: auto;
+}
+
+.InformationBlock {
+float: left;
+overflow: auto;
+}
+
+.InformationWideBlock h3,
+.InformationHighBlock h3,
+.InformationBlock h3 {
+font-family: century gothic, sans-serif;
+font-size: 1.1em;
+}
+
+.InformationWideBlock h3 a,
+.InformationHighBlock h3 a,
+.InformationBlock h3 a {
+color: inherit;
+font-family: inherit;
+font-size: inherit;
+font-weight: inherit;
+}
+
+.InformationWideBlock ul,
+.InformationHighBlock ul,
+.InformationBlock ul {
+list-style-type: none;
+margin: 0;
+padding-left: 5px;
+}
+
+.InformationWideBlock ul li,
+.InformationHighBlock ul li,
+.InformationBlock ul li {
+list-style-type: none;
+margin: 0;
+padding: 0;
+border-bottom: 1px dotted #BBE0EB !important;
+border-bottom: 1px solid #BBE0EB;
+}
+
+.InformationWideBlock ul li a,
+.InformationHighBlock ul li a,
+.InformationBlock ul li a {
+display: block;
+text-decoration: none;
+}
+
+.InformationWideBlock ul li:hover,
+.InformationHighBlock ul li:hover,
+.InformationBlock ul li:hover {
+}
+
+.InformationWideBlock .BlockFooter,
+.InformationHighBlock .BlockFooter,
+.InformationBlock .BlockFooter {
+clear:both;
+text-align:right;
+
+float: right !important;
+float: none;
+
+width: 95%;
+
+text-align:right;
+}
+
+.InformationBlockNoBorder {
+border: 0 !important;
+}

@@ -1,0 +1,41 @@
+﻿@import url(General.css);
+
+body {
+color: #375A7F;
+}
+
+a {
+color: #377F5A;
+}
+
+a:hover {
+color: #377F7F;
+}
+
+#contents a:hover {
+background: #fff url(BlueGlass/HoverItem.png) no-repeat;
+}
+
+#information h2 {
+background: url(BlueGlass/Shade.png) repeat-x;
+color: #29496f;
+border: 1px solid #375A7F;
+}
+
+.InformationWideBlock h3,
+.InformationHighBlock h3,
+.InformationBlock h3 {
+}
+
+.InformationWideBlock ul li:hover,
+.InformationHighBlock ul li:hover,
+.InformationBlock ul li:hover {
+background-color: #f1f1f1;
+}
+
+#information .InformationHighBlock,
+#information .InformationBlock,
+#information .InformationWideBlock {
+background: url(BlueGlass/InformationSnippetBlock.png) bottom repeat-x;
+border: 1px solid #99a465;
+}

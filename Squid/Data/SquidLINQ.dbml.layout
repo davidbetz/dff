@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SquidLINQ">
+  <DataContextMoniker Name="/SquidLINQDataContext" />
+  <nestedChildShapes>
+    <classShape Id="9e751a4b-b9b5-435f-91f0-e236772bb9d2" absoluteBounds="0.75, 4.75, 2, 2.2465844726562505">
+      <DataClassMoniker Name="/SquidLINQDataContext/FeedCreation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9b3004ed-b57c-45d6-ad2d-18d2bcd8a97a" absoluteBounds="0.765, 5.21, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6c8c47be-1713-4f98-8441-9eb5eb7443ee" absoluteBounds="0.75, 1.5, 2, 1.4248478190104166">
+      <DataClassMoniker Name="/SquidLINQDataContext/SnippetGroup" />
+      <nestedChildShapes>
+        <elementListCompartment Id="19b175cd-8399-42d1-96c2-2ac8e882c167" absoluteBounds="0.765, 1.96, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e9db4237-28be-47cb-a384-5d62628e2a72" absoluteBounds="3.5, 1, 2, 2.4109318033854166">
+      <DataClassMoniker Name="/SquidLINQDataContext/Snippet" />
+      <nestedChildShapes>
+        <elementListCompartment Id="934a93a8-d13e-4a17-80d9-bc925fd07f5e" absoluteBounds="3.515, 1.46, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.21242390950521); (3.5 : 2.21242390950521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SquidLINQDataContext/SnippetGroup/SnippetGroup_Snippet" />
+      <nodes>
+        <classShapeMoniker Id="6c8c47be-1713-4f98-8441-9eb5eb7443ee" />
+        <classShapeMoniker Id="e9db4237-28be-47cb-a384-5d62628e2a72" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
