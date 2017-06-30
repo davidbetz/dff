@@ -6,6 +6,8 @@ Back in late 2005 I created a system which I released in 2007 under the title of
 
 Original 2005 version was based on LLBLGen and RSS.NET, see project on Codeplex to download that version. https://squid.codeplex.com/releases/view/12519
 
+![](https://github.com/davidbetz/dff/raw/master/readme.png)
+
 ### The Data Feed Framework has two primary components:
 
 *   FeedCreation
@@ -66,11 +68,11 @@ For this scenario it may not matter where the link goes as you may not even need
 
 For example, if **"SnippetViewer.aspx?id={id}"** was the **DefaultEntryLinkTemplate**, then the **{id}** would be replaced with the ID of the entry. So, clicking on item 28 in the feed would take you to "**SnippetViewer.aspx?id=28**". You could also use **{title}** or **{description}** if you needed to, though **{id}** will probably be used more than anything else.
 
-**SnippetViewer.aspx** is provided as an example of what could be used to display snippets.  You could either use this page (with some rather extensive styling) or you could create your own page and completely change the value of **DefaultEntryLinkTemplate**.
+**SnippetViewer.aspx** is provided as an example of what could be used to display snippets.Â  You could either use this page (with some rather extensive styling) or you could create your own page and completely change the value of **DefaultEntryLinkTemplate**.
 
 ### Custom Link Templates
 
-Now, say you wanted this, and only this, feed to have links going to a page you created, but you didn't want to change the **DefaultEntryLinkTemplate** as that would affect all feeds.  Perhaps you setup a SQLMonitor.aspx page that will help you monitor your system. Assuming that you can send paramaters to the page, you can use your own custom template by altering the feed creation statement:
+Now, say you wanted this, and only this, feed to have links going to a page you created, but you didn't want to change the **DefaultEntryLinkTemplate** as that would affect all feeds.Â  Perhaps you setup a SQLMonitor.aspx page that will help you monitor your system. Assuming that you can send paramaters to the page, you can use your own custom template by altering the feed creation statement:
 
     select Id=0, Title=name, Description=description, LinkTemplate='SQLMonitor.aspx?SqlJobId={id}' from msdb.dbo.sysjobs where enabled = 1
 
@@ -128,7 +130,7 @@ group by pc.FirstName, pc.LastName, pc.ContactID order by sum(LineTotal) desc</p
 
 Then, you need to put AdventureWorks in the **FeedCreationDatabase** column of the same record.
 
-This SQL Server statement will refresh every time the feed is accessed, unless you have some sort of caching mechanism to prevent this.  Also notice that this statement has **LinkTemplate** set.
+This SQL Server statement will refresh every time the feed is accessed, unless you have some sort of caching mechanism to prevent this.Â  Also notice that this statement has **LinkTemplate** set.
 
 For something like this, you probably won't need to schedule it, though you could, but you may want to set **FeedAccessViaGuidOnly** to true to prevent just anyone from accessing it.
 
